@@ -6,6 +6,11 @@ export default defineEventHandler(async (event) => {
   setResponseHeader(event, 'Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   setResponseHeader(event, 'Access-Control-Allow-Headers', 'Content-Type');
 
+
+  if (event.req.method === 'OPTIONS') {
+    return {}; // Une réponse vide pour les requêtes OPTIONS
+  }
+  
   if (event.req.method === 'GET') {
    
     const routines = await prisma.routine.findMany({
@@ -17,22 +22,22 @@ export default defineEventHandler(async (event) => {
     return { routines };
 
   } else if (event.req.method === 'POST') {
+    console.log('Création de la routine');
     const body = await readBody(event);
-    const { name, timer, exercises } = body;
+    const { name, exercises } = body;
 
-    if (!name || !timer || !exercises || exercises.length === 0) {
+    if (!name || !exercises || exercises.length === 0) {
       return { error: 'Nom de la routine, timer et exercices sont nécessaires' };
     }
 
     try {
       const routine = await prisma.routine.create({
         data: {
-          name,      
-          timer,      
+          name,            
           exercises: { 
-            create: exercises.map((exercice: { name: string; image: string; instructions: string }) => ({
+            create: exercises.map((exercice: { name: string; gifUrl: string; instructions: string[] }) => ({
               name: exercice.name,
-              image: exercice.image,
+              image: exercice.gifUrl,
               instructions: exercice.instructions,
             }))
           }
