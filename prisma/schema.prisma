@@ -19,3 +19,21 @@ model User {
   name String
   email String @unique
 }
+
+model Routine {
+  id         Int         @id @default(autoincrement())
+  name       String
+  timer      Int         // Durée du minuteur en secondes (par exemple)
+  exercises  Exercice[]  // Relation avec le modèle Exercice
+  createdAt  DateTime    @default(now())
+}
+
+model Exercice {
+  id          Int       @id @default(autoincrement())
+  name        String
+  image       String    
+  instructions String   
+  routineId   Int      
+  routine     Routine   @relation(fields: [routineId], references: [id])  
+  createdAt   DateTime  @default(now())
+}
