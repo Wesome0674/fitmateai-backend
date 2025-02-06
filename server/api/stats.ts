@@ -27,7 +27,7 @@ export default defineEventHandler(async (event) => {
     }
 
     try {
-      const stats = await prisma.routine.create({
+      const stats = await prisma.saveStats.create({
         data: {
           rate,
           sets,
