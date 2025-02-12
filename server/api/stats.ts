@@ -20,9 +20,9 @@ export default defineEventHandler(async (event) => {
     return { stats };
   } else if (event.req.method === "POST") {
     const body = await readBody(event);
-    const { rate, sets, volume, reps } = body;
+    const { rate, sets, volume, reps, feeling } = body;
 
-    if ( !rate || !sets || !volume || !reps) {
+    if (!rate || !sets || !volume || !reps ) {
       return { error: "une erreur est survenue" };
     }
 
@@ -33,6 +33,7 @@ export default defineEventHandler(async (event) => {
           sets,
           volume,
           reps,
+          feeling,
         },
       });
 

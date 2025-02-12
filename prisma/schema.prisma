@@ -36,5 +36,12 @@ model SaveStats {
   sets        Int
   volume      Int
   reps       Int
+  feeling    Feeling?
   createdAt   DateTime  @default(now())
+}
+
+enum Feeling {
+  GOOD
+  BAD
+  AVERAGE
 }
