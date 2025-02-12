@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     const { rate, sets, volume, reps, feeling } = body;
 
-    if (!rate || !sets || !volume || !reps ) {
+    if (!rate || !sets || !volume || !reps || !feeling   ) {
       return { error: "une erreur est survenue" };
     }
 
